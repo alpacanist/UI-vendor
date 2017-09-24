@@ -69,6 +69,8 @@ input:not([type=submit]):not([type=file]):not([type=checkbox]) {margin: 19px 4px
 
 .selected-tool {opacity: .75;}
 
+.ui-preview {display: none; width: 100%; margin: -12px 0px; background-color: #FFF; color: #0087ff; font-weight: 700; font-size: 11px; letter-spacing: .08em; line-height: 3em; text-align: center;}
+
 a.imglink {border: none;}
 
 /*!

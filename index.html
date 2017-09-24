@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 	<html lang="en">
-		<title>Tool Lending</title>
+		<title>A List of UI</title>
 		<meta charset='utf-8'>
 		<script type="text/javascript" src="js/ICanHaz.js"></script>
 		<script type="text/javascript" src='js/jquery.js'></script>
@@ -12,17 +12,17 @@
 	</head>
 	<body>
 		<header class="container">
-			<h1>Tool Lending</h1>
+			<h1>A List of UI...</h1>
 			<ul class="nav">
-				<li><strong>LENDING IS LOVELY</strong></li>
-				<li>AN OPEN SOURCE, EASY TO DUPLICATE PROJECT</li>
+				<li><strong>MADE BY ALPACANIST</strong></li>
+				<li>橙光游戏原创 UI 授权记录</li>
 				<li><a href="#info">HERE'S HOW</a></li>
 			</ul>
 		</header>
 		<div id="filters" class="container">
-			<input id="toolSearch" type="search" placeholder="hammer.."></input>
-			<span class="clear sml-button">Clear</span>
-			<span id="showAvailable" class="sml-button">Show Available</span>
+			<input id="toolSearch" type="search" placeholder="标签，作者……"></input>
+			<span class="clear sml-button">清除</span>
+			<span id="showAvailable" class="sml-button">显示在售</span>
 		</div>
 		<div id="tools" class="container"><span class="flash animated">LOADING...</span></div>
 		<div id="info" class="container">
@@ -53,15 +53,27 @@
 		<script id="tools" type="text/html">
 		{{#rows}}
 		<div id="{{rowNumber}}" class="tool-box {{#checkedout}}not-{{/checkedout}}available">
-			<span class="tool-box-tool">{{tool}}</span>
-			<div class="tool-box-bottom {{rowNumber}}">
-				{{#checkedout}} <span class="tool-box-borrowed">ON LOAN</span>{{/checkedout}}
-				{{^checkedout}}<a href="mailto:{{owneremail}}?subject=Tool Lending: {{tool}}"><span class="tool-box-borrow btn">BORROW</span></a>{{/checkedout}}
+			<span class="tool-box-tool" author="{{author}}">{{UIName}}</span>
+			<div id="{{rowNumber}}" class="tool-box-bottom {{rowNumber}}">
+				{{#checkedout}} <span class="tool-box-borrowed">下架</span>{{/checkedout}}
+				{{^checkedout}}<span class="tool-box-borrow btn">预览</span>{{/checkedout}}
+                <!-- 点击显示预览图 -->
+                {{#preview}}
+                <span class="ui-preview {{rowNumber}}">
+                    <img src="{{preview}}", alt={{desc}}, width=100% />
+                </span>
+                {{/preview}}
 				<ul>
-					<li><small>WHO / WHERE : </small></li>
-					<li><a href="mailto:{{owneremail}}">{{owner}}</a></li>
-					<li>{{street}}, {{city}}, {{state}}</li>
-					<li><a href="https://maps.google.com/maps?q={{street}},{{city}},{{state}}" target="_blank"><small>MAP</small></a></li>
+					<li><small>作者：{{author}}</small></li>
+                    {{#url}}<li><small>发布地址：<a href="{{url}}">{{site}}</a></small></li>{{/url}}
+                    <!-- 授权 UI -->
+                    {{#maxCount}}
+                    <li><small>授权次数：{{count}}/{{maxCount}}</small></li>
+                    <li><small>已授权ID：{{authID}}</small></li>
+                    {{/maxCount}}
+
+					<!-- <li>{{street}}, {{city}}, {{state}}</li> -->
+					<li></li>
 					{{#tooldetails}}
 					<li><small>NOTES : </small>{{tooldetails}}</li>
 					{{/tooldetails}}
@@ -72,10 +84,13 @@
 		</script>
 
 		<script type="text/javascript">
-		  document.addEventListener('DOMContentLoaded', function() {
-	      var URL = "https://docs.google.com/spreadsheets/d/10tu-ZgkrVofWwY_aYEXCUkWTgLjLTBaKT_QO6zI45H0/edit?usp=sharing"
-	      Tabletop.init( { key: URL, callback: initialize, simpleSheet: true } )
-	    })
+        function init() {
+            var URL = "https://docs.google.com/spreadsheets/d/10tu-ZgkrVofWwY_aYEXCUkWTgLjLTBaKT_QO6zI45H0/edit?usp=sharing"
+            Tabletop.init( { key: URL, callback: initialize, simpleSheet: true
+            } )
+        }
+		document.addEventListener('DOMContentLoaded', init)
+
 		</script>
 	</body>
 </html>

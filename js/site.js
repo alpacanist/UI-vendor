@@ -13,6 +13,7 @@ function drawToolBox(data) {
     'rows': data
   })
   $('#tools').html(tools)
+  console.log(data)
 }
 
 $(document).on( 'click', '#showAvailable', toggleAvailable)
@@ -37,6 +38,20 @@ $(document).on( 'click', '.tool-box-tool', function(e) {
   else {
     $('.tool-box-bottom' + '.' + rowNumber).css('display', 'inherit')
     $(this).closest('div').addClass('selected-tool')
+    // console.log("selected" + ' ' + rowNumber)
+  }
+})
+
+$(document).on( 'click', '.tool-box-borrow', function(e) {
+  var rowNumber = $(this).closest("div").attr("id")
+  if ($(this).closest('span').hasClass('toggled')) {
+    $('.ui-preview' + '.' + rowNumber).css('display', 'none')
+    $(this).closest('span').removeClass('toggled')
+  }
+  else {
+    $('.ui-preview' + '.' + rowNumber).css('display', 'inherit')
+    $(this).closest('span').addClass('toggled')
+    console.log("selected" + ' ' + rowNumber)
   }
 })
 
@@ -55,9 +70,9 @@ function toggleAvailable(state) {
 
     // Update the button text
     if (button.hasClass('button-pressed')) {
-        button.html("Show All")
+        button.html("显示全部")
     } else {
-        button.html("Show Available")
+        button.html("显示在售")
     }
 }
 
@@ -67,10 +82,12 @@ function clearSearch(e) {
   drawToolBox(gData)
 }
 
+// TODO: 加入按作者和标签搜索功能
 function filterTools(text) {
   $('.tool-box-tool').each(function() {
   var tool = $(this).html().toLowerCase()
-  if (tool.match(text)) {
+  var author = $(this).attr("author")
+  if (tool.match(text) || author.match(text)) {
     $(this).parent().removeClass('filtered')
 } else $(this).parent().addClass('filtered')
   })
